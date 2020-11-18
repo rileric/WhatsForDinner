@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>What's For Dinner</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <header>
+        <h1>What's For Dinner!</h1>
+        <nav>
+            <ul id="menu">
+                <li><a href="#" id="categoryNav">Category</a></li>
+                <li><a href="#" id="cuisineNav">Cuisine</a></li>
+                <li><a href="#" id="randomNav">Random</a></li>
+                <li><a href="#" id="ingredientsNav">Ingredients</a></li>
+                <li><a href="#" id="contactNav">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+      <section class="keySplash hidden">
+        <form id="keyForm">
+          <label for="user-key">Please enter your X-Rapid API Key: </label>
+          <input id="user-key" type="text" name="userKey" required>
+          <button type="submit" id="keyFormSubmit">Submit</button> 
+        </form>
+      </section>
+      <hr class="hidden">
+      <section class="results hidden js-results">
+      </section>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
