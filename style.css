@@ -1,15 +1,35 @@
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
+    border: solid black;
+    width: 100%;
   }
   
   .hidden {
     display: none;
   }
 
+  img {
+    width: 200px;
+  }
+
+  .dotted {
+    border: dotted red;
+  }
+
+  .cuisineButton {
+    background-color: teal;
+    color: white;
+  }
+
+  .categoryButton {
+    background-color: darkseagreen;
+  }
+
   /* Header and Navigation for all pages */
   header {
       width: 100%;
+      text-align: center;
   }
 
   header nav {
