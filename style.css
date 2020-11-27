@@ -5,49 +5,59 @@
     width: 100%;
   }
   
-  .hidden {
-    display: none;
-  }
+.hidden {
+  display: none;
+}
 
-  img {
-    width: 200px;
-  }
+img {
+  width: 200px;
+}
 
-  .dotted {
-    border: dotted red;
-  }
+.dotted {
+  border: dotted red;
+}
 
-  .cuisineButton {
-    background-color: teal;
-    color: white;
-  }
+.cuisineButton {
+  background-color: teal;
+  color: white;
+}
 
-  .categoryButton {
-    background-color: darkseagreen;
-  }
+.categoryButton {
+  background-color: darkseagreen;
+}
 
-  /* Header and Navigation for all pages */
-  header {
-      width: 100%;
-      text-align: center;
-  }
+/* Header and Navigation for all pages */
+header {
+  width: 100%;
+  text-align: center;
+}
 
-  header nav {
-      display: flex;
-      justify-content: center;
-  }
-  
+header nav {
+  display: flex;
+  justify-content: center;
+}
+
+header nav ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  list-style: none;
+}
+
+header nav ul li a {
+  text-decoration: none;
+  margin: 0 20px 0 0;
+}
+
+header nav ul li:last-child a {
+  margin-right: 0;;
+  text-align: center;
+}
+
+
+
+@media all and (min-width: 800px) {
   header nav ul {
-      display: flex;
-      padding-left: 0;
-      list-style: none;
+    flex-direction: row;
   }
-
-  header nav ul li a {
-      text-decoration: none;
-      margin: 0 20px 0 0;
-  }
-
-  header nav ul li:last-child a {
-      margin-right: 0;;
-  }
+}
