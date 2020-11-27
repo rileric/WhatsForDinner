@@ -1,6 +1,6 @@
 /* jshint esversion:6 */
 //------ constants------//
-var apiKey = "";
+let apiKey = ""; // set once
 const apiHost = "themealdb.p.rapidapi.com";
 let fetchParams = ""; // set once
 
