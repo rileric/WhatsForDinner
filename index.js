@@ -197,15 +197,17 @@ function fetchRecipesTenRandom() {
 function structureMealHtml(valueArray) {
     let htmlString = 
     `<section class="meal">
-      <button type="button" class="mealButton" value="${valueArray[0]}"><h2>${valueArray[1]}</h2></button>
-      <img src="${valueArray[2]}" alt="${valueArray[1]}">
+      <div class="meal-child">
+        <button type="button" class="mealButton" value="${valueArray[0]}"><h2>${valueArray[1]}</h2></button>
+        <img src="${valueArray[2]}" alt="${valueArray[1]}">
+      </div>
     </section>`;
     return htmlString;
   }
   
   // areaKeyList = ["strArea"];
   function structureCuisineHtml(valueArray) {
-    let htmlString = `<button class="cuisineButton" type="button" value="${valueArray[0]}">${valueArray[0]}</button>`;
+    let htmlString = `<button class="cuisineButton cuisine" type="button" value="${valueArray[0]}">${valueArray[0]}</button>`;
     return htmlString;
   }
   
@@ -213,8 +215,10 @@ function structureMealHtml(valueArray) {
   function structureCategoryHtml(valueArray) {
     let htmlString = 
     `<section class="category" id="category-${valueArray[0]}">
-      <button type="button" class="categoryButton" value="${valueArray[1]}"><h2>${valueArray[1]}</h2></button>
-      <p>${valueArray[2]}</p>
+      <div class="category-child">
+        <button type="button" class="categoryButton" value="${valueArray[1]}"><h2>${valueArray[1]}</h2></button>
+        <p>${valueArray[2]}</p>
+      </div>
     </section>`;
     return htmlString;
   }
@@ -268,7 +272,7 @@ function structureMealHtml(valueArray) {
     htmlString += structureIngredientListHtml(valueArray);
     
     htmlString += 
-    `<hr class="recipe-break">
+    `<hr class="ingredient-break">
     <p>${valueArray[45]}</p>
     <a href="${valueArray[46]}">Youtube</a>`;
     htmlString += `</section>`;
@@ -321,6 +325,7 @@ function hideAllScreens() {
   $('.contact').addClass("hidden");
   $('.js-results').addClass("hidden");
   $('.ingredientSearch').addClass("hidden");
+  $('.info').addClass("hidden");
 }
 
 
@@ -339,6 +344,7 @@ function parseCuisineResponse(responseJson) {
     cuisinesData.forEach( cuisine => {
         cuisineListString += generateHtmlElements(cuisine, areaKeyList, "cuisine");
     }) ;
+    
 }
 
 // recipes
@@ -383,7 +389,6 @@ function parseMealResponse(responseJson) {
   if (mealsData) {// null = false
     mealsData.forEach( meal => {
       mealsString += generateHtmlElements(meal, mealKeyList, "meal");
-      mealsString += "<hr class='meal-break'>";
     }) ;
   }
   else {
