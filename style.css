@@ -21,24 +21,11 @@ main {
 
 .js-results {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: space-between;
 }
 
-.category, .meal {
-  width: 32%;
-  height: 150px;
-  padding-bottom: 32%; /* Same as width, sets height */
-  margin-bottom: 2%; /* (100-32*3)/2 */
-  position: relative;
-  background-color: #8EE1D7;
-}
 
-.category-child, .meal-child {
-  position: absolute;
-  padding: 5px;
-  align-content: center;
-}
 
 img {
   width: 200px;
@@ -125,5 +112,36 @@ header nav ul li:last-child a {
 @media all and (min-width: 800px) {
   header nav ul {
     flex-direction: row;
+  }
+
+  .js-results {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .category, .meal {
+    width: 32%;
+    height: 150px;
+    padding-bottom: 32%; /* Same as width, sets height */
+    margin-bottom: 2%; /* (100-32*3)/2 */
+    position: relative;
+    background-color: #8EE1D7;
+  }
+  
+  .category-child, .meal-child {
+    position: absolute;
+    padding: 5px;
+    align-content: center;
+  }
+  
+  img {
+    display: block;
+    margin: auto;
+  }
+  
+  .cuisine {
+    flex: 0 32%;
+    height: 100px;
+    margin-bottom: 2%; /* (100-32*3)/2 */
   }
 }
