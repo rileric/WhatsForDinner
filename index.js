@@ -94,7 +94,7 @@ Includes strArea
 Includes idMeal, strMeal, and strMealThumb
  for each object in the response array. Ingredients are separated by %2C */
  function fetchByIngredientList( ingredientList) {
-    myDebug("fetchByIngredientList called");
+
     let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?i=${ingredientList}`;
 
     fetch(searchUrl, fetchParams)
@@ -111,7 +111,6 @@ Includes idMeal, strMeal, and strMealThumb
 Includes idMeal, strMeal, and strMealThumb
  for each object in the response array. */
  function fetchByCategory( searchCategory) {
-    myDebug("fetchByCategory called");
     let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?c=${searchCategory}`;
 
     fetch(searchUrl, fetchParams)
@@ -128,7 +127,6 @@ Includes idMeal, strMeal, and strMealThumb
 Includes idMeal, strMeal, and strMealThumb
  for each object in the response array. */
  function fetchByCuisine( searchArea) {
-    myDebug("fetchByCuisine called");
     let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?a=${searchArea}`;
 
     fetch(searchUrl, fetchParams)
@@ -151,7 +149,6 @@ for each object in the array
 */
 // id
 function fetchRecipeById(recipeId) {
-    myDebug("fetchRecipeById called");
     let searchUrl = `https://themealdb.p.rapidapi.com/lookup.php?i=${recipeId}`;
     
     fetch(searchUrl, fetchParams)
@@ -186,6 +183,7 @@ function fetchRecipesTenRandom() {
     fetch(searchUrl, fetchParams)
     .then(response => response.json() )
     .then(responseJson => {
+      myDebug(responseJson);
       parseRecipeResponse(responseJson);
     })
     .catch(err => {
@@ -196,30 +194,29 @@ function fetchRecipesTenRandom() {
 // mealKeyList = ["idMeal", "strMeal", "strMealThumb"];
 function structureMealHtml(valueArray) {
     let htmlString = 
-    `<section class="meal">
-      <div class="meal-child">
+    `<div class="meal-child">
         <button type="button" class="mealButton" value="${valueArray[0]}"><h2>${valueArray[1]}</h2></button>
-        <img src="${valueArray[2]}" alt="${valueArray[1]}">
-      </div>
-    </section>`;
+        <div class="imgContainer">
+          <img src="${valueArray[2]}" alt="${valueArray[1]}">
+        </div>
+      </div>`;
     return htmlString;
   }
   
   // areaKeyList = ["strArea"];
   function structureCuisineHtml(valueArray) {
-    let htmlString = `<button class="cuisineButton cuisine" type="button" value="${valueArray[0]}">${valueArray[0]}</button>`;
+    let htmlString = `<button class="cuisineButton cuisine-child" type="button" value="${valueArray[0]}">${valueArray[0]}</button>`;
     return htmlString;
   }
   
   // categoryKeyList = ["idCategory", "strCategory", "strCategoryDescription"];
   function structureCategoryHtml(valueArray) {
     let htmlString = 
-    `<section class="category" id="category-${valueArray[0]}">
-      <div class="category-child">
+    `<div class="category-child">
         <button type="button" class="categoryButton" value="${valueArray[1]}"><h2>${valueArray[1]}</h2></button>
         <p>${valueArray[2]}</p>
-      </div>
-    </section>`;
+      </div>`;
+
     return htmlString;
   }
   
@@ -252,8 +249,8 @@ function structureMealHtml(valueArray) {
     let pairCount = 1;
 
     for( let i = 5; i < 44; i += 2) { //strMeasure1 = 5, strIngredient20 = 44
-      if(valueArray[i] != "") {
-        htmlString += `<p class="ing-measure-pair-${pairCount}">${valueArray[i]}  ${valueArray[i+1]}</p>`;
+      if((valueArray[i] !== "") && (valueArray[i] !== null)) {
+        htmlString += `<p class="ing-measure pair-${pairCount}">${valueArray[i]}  ${valueArray[i+1]}</p>`;
         pairCount++;
       }
     }
@@ -264,17 +261,23 @@ function structureMealHtml(valueArray) {
   function structureRecipeHtml(valueArray) {
     let htmlString = 
     `<section class="recipe" id="recipe-${valueArray[0]}">
-      <h2>${valueArray[1]}</h2>
-      <h3>Cuisine: ${valueArray[2]}</h3>
-      <h3>Category: ${valueArray[3]}</h3>
-      <img src="${valueArray[4]}" alt="${valueArray[1]}">`;
-  
+      <div class="recipe-top">
+        <div class="recipeHeader">
+          <h2>${valueArray[1]}</h2>
+          <h3>Cuisine: ${valueArray[2]}</h3>
+          <h3>Category: ${valueArray[3]}</h3>
+          <img src="${valueArray[4]}" alt="${valueArray[1]}">
+        </div>
+        <div class="ingredientsList">`;
+
     htmlString += structureIngredientListHtml(valueArray);
     
     htmlString += 
-    `<hr class="ingredient-break">
+    `</div>
+    </div>
+    <hr class="ingredient-break">
     <p>${valueArray[45]}</p>
-    <a href="${valueArray[46]}">Youtube</a>`;
+    <a class="youtubeButton" href="${valueArray[46]}">Youtube</a>`;
     htmlString += `</section>`;
     return htmlString;
   }
@@ -332,19 +335,21 @@ function hideAllScreens() {
 // ------ Parsing Response Arrays--------//
 function parseCategoryResponse(responseJson) {
     const categoriesData = responseJson.categories;
+    categoryListString += `<section class="category">`;
     categoriesData.forEach( category => {
         categoryListString += generateHtmlElements(category, categoryKeyList, "category");
     }) ;
-
+    categoryListString += `</section>`;
 }
 
 // cuisines/areas
 function parseCuisineResponse(responseJson) {
     const cuisinesData = responseJson.meals;
+    cuisineListString += `<section class="cuisine">`
     cuisinesData.forEach( cuisine => {
         cuisineListString += generateHtmlElements(cuisine, areaKeyList, "cuisine");
     }) ;
-    
+    cuisineListString += `</section>`;
 }
 
 // recipes
@@ -382,14 +387,15 @@ function parseRecipeResponse(responseJson) {
 
 // Includes idMeal, strMeal, and strMealThumb
 function parseMealResponse(responseJson) {
-  myDebug("parseMealResponse called");
   const mealsData = responseJson.meals;
   let mealsString = "";
 
   if (mealsData) {// null = false
+    mealsString += `<section class="meal">`;
     mealsData.forEach( meal => {
       mealsString += generateHtmlElements(meal, mealKeyList, "meal");
     }) ;
+    mealsString += `</section>`;
   }
   else {
     mealsString = "No results found.";
@@ -458,6 +464,15 @@ function handleContactNavigation() {
 
       hideAllScreens();
       $('.contact').removeClass("hidden");
+  });
+}
+// handle About Button
+function handleAboutNavigation() {
+  $('footer').on('click', '#aboutNav', event => {
+      event.preventDefault();
+
+      hideAllScreens();
+      $('.info').removeClass("hidden");
   });
 }
 
@@ -559,6 +574,7 @@ function startApp() {
   handleRandomeNavigation();
   handleIngredientsNavigation();
   handleContactNavigation();
+  handleAboutNavigation();
   watchIngredientSubmit();
   // dynamic
   handleCategoryButtons();

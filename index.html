@@ -25,7 +25,7 @@
       <section class="keySplash hidden">
         <form id="keyForm">
           <label for="user-key">Please enter your X-Rapid API Key: </label>
-          <input id="user-key" type="password" name="userKey" required>
+          <input class="user-input" id="user-key" type="password" name="userKey" required>
           <button type="submit" id="keyFormSubmit">Submit</button> 
         </form>
       </section>
@@ -46,9 +46,9 @@
       <section class="contact hidden">
         <form action="https://formspree.io/f/myybejzd" method="POST" id="contactForm">
           <label for="user-name">Name:</label>
-          <input id="user-name" type="text" name="name" required>
+          <input class="user-input" id="user-name" type="text" name="name" required>
           <label for="email">Email:</label>
-          <input id="email" type="email" name="_replyto" required>
+          <input class="user-input" id="email" type="email" name="_replyto" required>
           <label for="form-message">Message:</label>
           <textarea id="form-message" name="message"></textarea>
           <input type="submit" id="contactFormSubmit" value="Send">
@@ -59,25 +59,25 @@
       <section class="ingredientSearch hidden">
         <form id="ingForm">
           <label for="ing1">Ingredient 1: </label>
-          <input id="ing1" type="text" name="ingredient1" required>
+          <input class="user-input" id="ing1" type="text" name="ingredient1" required>
           <label for="ing2">Ingredient 2: </label>
-          <input id="ing2" type="text" name="ingredient2">
+          <input class="user-input" id="ing2" type="text" name="ingredient2">
           <label for="ing3">Ingredient 3: </label>
-          <input id="ing3" type="text" name="ingredient3">
+          <input class="user-input" id="ing3" type="text" name="ingredient3">
           <label for="ing4">Ingredient 4: </label>
-          <input id="ing4" type="text" name="ingredient4">
+          <input class="user-input" id="ing4" type="text" name="ingredient4">
           <label for="ing5">Ingredient 5: </label>
-          <input id="ing5" type="text" name="ingredient5">
+          <input class="user-input" id="ing5" type="text" name="ingredient5">
           <label for="ing6">Ingredient 6: </label>
-          <input id="ing6" type="text" name="ingredient6">
+          <input class="user-input" id="ing6" type="text" name="ingredient6">
           <label for="ing7">Ingredient 7: </label>
-          <input id="ing7" type="text" name="ingredient7">
+          <input class="user-input" id="ing7" type="text" name="ingredient7">
           <label for="ing8">Ingredient 8: </label>
-          <input id="ing8" type="text" name="ingredient8">
+          <input class="user-input" id="ing8" type="text" name="ingredient8">
           <label for="ing9">Ingredient 9: </label>
-          <input id="ing9" type="text" name="ingredient9">
+          <input class="user-input" id="ing9" type="text" name="ingredient9">
           <label for="ing10">Ingredient 10: </label>
-          <input id="ing10" type="text" name="ingredient10">
+          <input class="user-input" id="ing10" type="text" name="ingredient10">
           <button type="submit" class="ingFormSubmit" id="ingSubmit">Submit</button> 
         </form>
       </section>
@@ -86,6 +86,11 @@
       <section class="results hidden js-results">
       </section>
     </main>
+    <footer>
+      <div class="aboutContainer">
+        <a href="#" id="aboutNav">About</a>
+      </div>
+    </footer>
     <script src="index.js"></script>
   </body>
 </html>
