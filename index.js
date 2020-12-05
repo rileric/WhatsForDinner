@@ -7,7 +7,6 @@ let fetchParams = ""; // set once
 // one time fetch strings
 let categoryListString = "";
 let cuisineListString = "";
-let randomListString = "";
 
 function myDebug(str) {
     console.log(str);
@@ -282,17 +281,14 @@ function structureRecipeHtml(valueArray) {
         <h3>Category: ${valueArray[3]}</h3>
         <img src="${valueArray[4]}" alt="${valueArray[1]}">
       </div>
-      <div class="ingredientsList">`;
-
-  htmlString += structureIngredientListHtml(valueArray);
-  
-  htmlString += 
-  `</div>
-  </div>
+      <div class="ingredientsList">
+        ${structureIngredientListHtml(valueArray)}
+      </div>
+    </div>
   <hr class="ingredient-break">
-  <p>${valueArray[45]}</p>
-  <a class="youtubeButton" href="${valueArray[46]}">Youtube</a>`;
-  htmlString += `</section>`;
+  <pre>${valueArray[45]}</pre>
+  <a class="youtubeButton" href="${valueArray[46]}">Youtube</a>
+  </section>`;
   return htmlString;
 }
 
@@ -303,7 +299,6 @@ function generateHtmlElements( displayObj, keyList, fetchType) {
 
   // organizes the fetchResults array based on keyList order
   for ( let i = 0; i < keyList.length; i++) {
-    let objKey = keyList[i];
     let objValue = displayObj[keyList[i]];
 
     fetchResults.push(objValue);
@@ -329,6 +324,7 @@ function generateHtmlElements( displayObj, keyList, fetchType) {
     case "recipe":
       myDebug("recipe");
       htmlString = structureRecipeHtml(fetchResults);
+      htmlString += '<hr class="recipe-break">';
       break;
 
     default:
@@ -349,21 +345,17 @@ function hideAllScreens() {
 // ------ Parsing Response Arrays--------//
 function parseCategoryResponse(responseJson) {
     const categoriesData = responseJson.categories;
-    categoryListString += `<section class="category">`;
-    categoriesData.forEach( category => {
-        categoryListString += generateHtmlElements(category, categoryKeyList, "category");
-    }) ;
-    categoryListString += `</section>`;
+    categoryListString += `<section class="category">
+      ${categoriesData.map( category => generateHtmlElements(category,categoryKeyList, "category") ).join("\n")}
+    </section>`;
 }
 
 // cuisines/areas
 function parseCuisineResponse(responseJson) {
     const cuisinesData = responseJson.meals;
-    cuisineListString += `<section class="cuisine">`
-    cuisinesData.forEach( cuisine => {
-        cuisineListString += generateHtmlElements(cuisine, areaKeyList, "cuisine");
-    }) ;
-    cuisineListString += `</section>`;
+    cuisineListString += `<section class="cuisine">
+        ${cuisinesData.map(cuisine => generateHtmlElements(cuisine, areaKeyList, "cuisine") ).join("\n")}
+    </section>`;
 }
 
 // recipes
@@ -374,11 +366,11 @@ function parseRecipeResponse(responseJson) {
   if (recipesData) {// null = false
     recipesData.forEach( recipe => {
       recipeString += generateHtmlElements(recipe, recipeKeyList, "recipe");
-      recipeString += "<hr class='recipe-break'>";
     }) ;
   } 
   else {
-    recipeString = "No results found.";
+    myDebug("no results");
+    recipeString = '<p class="noResults">No results found.</p>';
   }
 
   $('section.js-results').html(recipeString);
@@ -392,14 +384,13 @@ function parseMealResponse(responseJson) {
   let mealsString = "";
 
   if (mealsData) {// null = false
-    mealsString += `<section class="meal">`;
-    mealsData.forEach( meal => {
-      mealsString += generateHtmlElements(meal, mealKeyList, "meal");
-    }) ;
-    mealsString += `</section>`;
+    mealsString = `<section class="meal">
+    ${mealsData.map( meal => generateHtmlElements(meal, mealKeyList, "meal") ).join("\n")}
+    </section>`;
   }
   else {
-    mealsString = "No results found.";
+    myDebug("no results");
+    mealsString = '<p class="noResults">No results found.</p>';
   }
 
   $('section.js-results').html(mealsString);
