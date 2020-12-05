@@ -13,6 +13,13 @@ function myDebug(str) {
     console.log(str);
 }
 
+function displayErrorMessage() {
+  let htmlString = "Sorry, there was an error with the request.";
+
+  $('section.js-results').html(htmlString);
+  $('.js-results').removeClass("hidden");
+}
+
 // ------ Key Lists ------ //
 // This is what we expect from the fetch requests
 const mealKeyList = ["idMeal", "strMeal", "strMealThumb"];
@@ -59,84 +66,89 @@ function setupFetchParams() {
 //------ one-time fetch requests------//
 /* List all meal categories
 Includes strCategory, strCategoryDescription, and strCategoryThumb
- for each object in the response array. */
+for each object in the response array. */
 function fetchMealCategories() {
-    let searchUrl = "https://themealdb.p.rapidapi.com/categories.php";
+  let searchUrl = "https://themealdb.p.rapidapi.com/categories.php";
 
-    fetch(searchUrl, fetchParams)
-    .then(response => response.json() )
-    .then(responseJson => {
-        parseCategoryResponse(responseJson);
-    })
-    .catch(err => {
-        console.log("There was an error with the request: " + err);
-    });
+  fetch(searchUrl, fetchParams)
+  .then(response => response.json() )
+  .then(responseJson => {
+      parseCategoryResponse(responseJson);
+  })
+  .catch(err => {
+    displayErrorMessage();
+    console.log("There was an error with the request: " + err);
+  });
 }
 
 /* List all areas (cuisines)
 Includes strArea 
- for each object in the response array. */
- function fetchCuisines() {
-     let searchUrl = "https://themealdb.p.rapidapi.com/list.php?a=list";
-
-     fetch(searchUrl, fetchParams)
-    .then(response => response.json() )
-    .then(responseJson => {
-        parseCuisineResponse(responseJson);
-    })
-    .catch(err => {
-        console.log("There was an error with the request: " + err);
-    });
- }
-
- //------ Repeat Requests------//
- /* List meals by ingredient list
-Includes idMeal, strMeal, and strMealThumb
- for each object in the response array. Ingredients are separated by %2C */
- function fetchByIngredientList( ingredientList) {
-
-    let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?i=${ingredientList}`;
+for each object in the response array. */
+function fetchCuisines() {
+    let searchUrl = "https://themealdb.p.rapidapi.com/list.php?a=list";
 
     fetch(searchUrl, fetchParams)
-    .then(response => response.json() )
-    .then(responseJson => {
-        parseMealResponse(responseJson);
-    })
-    .catch(err => {
-        console.log("There was an error with the request: " + err);
-    });
- }
-
-  /* List meals by category
-Includes idMeal, strMeal, and strMealThumb
- for each object in the response array. */
- function fetchByCategory( searchCategory) {
-    let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?c=${searchCategory}`;
-
-    fetch(searchUrl, fetchParams)
-    .then(response => response.json() )
-    .then(responseJson => {
-        parseMealResponse(responseJson);
-    })
-    .catch(err => {
-        console.log("There was an error with the request: " + err);
-    });
+  .then(response => response.json() )
+  .then(responseJson => {
+      parseCuisineResponse(responseJson);
+  })
+  .catch(err => {
+    displayErrorMessage();
+    console.log("There was an error with the request: " + err);
+  });
 }
 
-  /* List meals by Area (cuisines)
+//------ Repeat Requests------//
+/* List meals by ingredient list
 Includes idMeal, strMeal, and strMealThumb
- for each object in the response array. */
- function fetchByCuisine( searchArea) {
-    let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?a=${searchArea}`;
+for each object in the response array. Ingredients are separated by %2C */
+function fetchByIngredientList( ingredientList) {
 
-    fetch(searchUrl, fetchParams)
-    .then(response => response.json() )
-    .then(responseJson => {
-        parseMealResponse(responseJson);
-    })
-    .catch(err => {
-        console.log("There was an error with the request: " + err);
-    });
+  let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?i=${ingredientList}`;
+
+  fetch(searchUrl, fetchParams)
+  .then(response => response.json() )
+  .then(responseJson => {
+      parseMealResponse(responseJson);
+  })
+  .catch(err => {
+    displayErrorMessage();
+    console.log("There was an error with the request: " + err);
+  });
+}
+
+/* List meals by category
+Includes idMeal, strMeal, and strMealThumb
+for each object in the response array. */
+function fetchByCategory( searchCategory) {
+  let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?c=${searchCategory}`;
+
+  fetch(searchUrl, fetchParams)
+  .then(response => response.json() )
+  .then(responseJson => {
+      parseMealResponse(responseJson);
+  })
+  .catch(err => {
+    displayErrorMessage();
+    console.log("There was an error with the request: " + err);
+  });
+}
+
+/* List meals by Area (cuisines)
+Includes idMeal, strMeal, and strMealThumb
+for each object in the response array. */
+function fetchByCuisine( searchArea) {
+  let searchUrl = `https://themealdb.p.rapidapi.com/filter.php?a=${searchArea}`;
+
+  fetch(searchUrl, fetchParams)
+  .then(response => response.json() )
+  .then(responseJson => {
+      parseMealResponse(responseJson);
+  })
+  .catch(err => {
+    displayErrorMessage();
+    console.log("There was an error with the request: " + err);
+  });
 }
 
 //------ Full Recipe Requests ------//
@@ -158,11 +170,12 @@ function fetchRecipeById(recipeId) {
         parseRecipeResponse(responseJson);
     })
     .catch(err => {
-        console.log("There was an error with the request: " + err);
+      displayErrorMessage();
+      console.log("There was an error with the request: " + err);
     });
 }
-// by name
-function fetchRecipeByName(recipeName) {
+// by name -- NOT IMPLEMENTED since there is a good chance the API won't find anything.
+/* function fetchRecipeByName(recipeName) {
     myDebug("fetchRecipeByName called");
     let searchUrl = `https://themealdb.p.rapidapi.com/search.php?s=${recipeName}`;
 
@@ -175,7 +188,7 @@ function fetchRecipeByName(recipeName) {
     .catch(err => {
         console.log("There was an error with the request: " + err);
     });
-}
+} */
 // 10 random
 function fetchRecipesTenRandom() {
     let searchUrl = "https://themealdb.p.rapidapi.com/randomselection.php";
@@ -187,141 +200,142 @@ function fetchRecipesTenRandom() {
       parseRecipeResponse(responseJson);
     })
     .catch(err => {
-        console.log("There was an error with the request: " + err);
+      displayErrorMessage();
+      console.log("There was an error with the request: " + err);
     });
 }
 // ----- HTML FUNCTIONS ----- //
 // mealKeyList = ["idMeal", "strMeal", "strMealThumb"];
 function structureMealHtml(valueArray) {
-    let htmlString = 
-    `<div class="meal-child">
-        <button type="button" class="mealButton" value="${valueArray[0]}"><h2>${valueArray[1]}</h2></button>
-        <div class="imgContainer">
-          <img src="${valueArray[2]}" alt="${valueArray[1]}">
-        </div>
-      </div>`;
-    return htmlString;
-  }
+  let htmlString = 
+  `<div class="meal-child">
+      <button type="button" class="mealButton" value="${valueArray[0]}"><h2>${valueArray[1]}</h2></button>
+      <div class="imgContainer">
+        <img src="${valueArray[2]}" alt="${valueArray[1]}">
+      </div>
+    </div>`;
+  return htmlString;
+}
   
-  // areaKeyList = ["strArea"];
-  function structureCuisineHtml(valueArray) {
-    let htmlString = `<button class="cuisineButton cuisine-child" type="button" value="${valueArray[0]}">${valueArray[0]}</button>`;
-    return htmlString;
-  }
-  
-  // categoryKeyList = ["idCategory", "strCategory", "strCategoryDescription"];
-  function structureCategoryHtml(valueArray) {
-    let htmlString = 
-    `<div class="category-child">
-        <button type="button" class="categoryButton" value="${valueArray[1]}"><h2>${valueArray[1]}</h2></button>
-        <p>${valueArray[2]}</p>
-      </div>`;
+// areaKeyList = ["strArea"];
+function structureCuisineHtml(valueArray) {
+  let htmlString = `<button type="button" class="cuisineButton cuisine-child" value="${valueArray[0]}"><h2>${valueArray[0]}</h2></button>`;
+  return htmlString;
+}
 
-    return htmlString;
-  }
-  
-  /* recipeKeyList = ["idMeal", "strMeal", "strArea", "strCategory", "strMealThumb", (0-4)
-    "strMeasure1", "strIngredient1",
-    "strMeasure2", "strIngredient2",
-    "strMeasure3", "strIngredient3",
-    "strMeasure4", "strIngredient4",
-    "strMeasure5", "strIngredient5",
-    "strMeasure6", "strIngredient6",
-    "strMeasure7", "strIngredient7",
-    "strMeasure8", "strIngredient8",
-    "strMeasure9", "strIngredient9",
-    "strMeasure10", "strIngredient10",
-    "strMeasure11", "strIngredient11",
-    "strMeasure12", "strIngredient12",
-    "strMeasure13", "strIngredient13",
-    "strMeasure14", "strIngredient14",
-    "strMeasure15", "strIngredient15",
-    "strMeasure16", "strIngredient16",
-    "strMeasure17", "strIngredient17",
-    "strMeasure18", "strIngredient18",
-    "strMeasure19", "strIngredient19",
-    "strMeasure20", "strIngredient20",
-    "strInstructions", "strYoutube"];   (45-46)
-  */
-  function structureIngredientListHtml(valueArray) {
-  
-    let htmlString = "";
-    let pairCount = 1;
+// categoryKeyList = ["idCategory", "strCategory", "strCategoryDescription"];
+function structureCategoryHtml(valueArray) {
+  let htmlString = 
+  `<div class="category-child">
+      <button type="button" class="categoryButton" value="${valueArray[1]}"><h2>${valueArray[1]}</h2></button>
+      <p>${valueArray[2]}</p>
+    </div>`;
 
-    for( let i = 5; i < 44; i += 2) { //strMeasure1 = 5, strIngredient20 = 44
-      if((valueArray[i] !== "") && (valueArray[i] !== null)) {
-        htmlString += `<p class="ing-measure pair-${pairCount}">${valueArray[i]}  ${valueArray[i+1]}</p>`;
-        pairCount++;
-      }
+  return htmlString;
+}
+
+/* recipeKeyList = ["idMeal", "strMeal", "strArea", "strCategory", "strMealThumb", (0-4)
+  "strMeasure1", "strIngredient1",
+  "strMeasure2", "strIngredient2",
+  "strMeasure3", "strIngredient3",
+  "strMeasure4", "strIngredient4",
+  "strMeasure5", "strIngredient5",
+  "strMeasure6", "strIngredient6",
+  "strMeasure7", "strIngredient7",
+  "strMeasure8", "strIngredient8",
+  "strMeasure9", "strIngredient9",
+  "strMeasure10", "strIngredient10",
+  "strMeasure11", "strIngredient11",
+  "strMeasure12", "strIngredient12",
+  "strMeasure13", "strIngredient13",
+  "strMeasure14", "strIngredient14",
+  "strMeasure15", "strIngredient15",
+  "strMeasure16", "strIngredient16",
+  "strMeasure17", "strIngredient17",
+  "strMeasure18", "strIngredient18",
+  "strMeasure19", "strIngredient19",
+  "strMeasure20", "strIngredient20",
+  "strInstructions", "strYoutube"];   (45-46)
+*/
+function structureIngredientListHtml(valueArray) {
+
+  let htmlString = "";
+  let pairCount = 1;
+
+  for( let i = 5; i < 44; i += 2) { //strMeasure1 = 5, strIngredient20 = 44
+    if((valueArray[i] !== "") && (valueArray[i] !== null)) {
+      htmlString += `<p class="ing-measure pair-${pairCount}">${valueArray[i]}  ${valueArray[i+1]}</p>`;
+      pairCount++;
     }
-  
-    return htmlString;
   }
-  
-  function structureRecipeHtml(valueArray) {
-    let htmlString = 
-    `<section class="recipe" id="recipe-${valueArray[0]}">
-      <div class="recipe-top">
-        <div class="recipeHeader">
-          <h2>${valueArray[1]}</h2>
-          <h3>Cuisine: ${valueArray[2]}</h3>
-          <h3>Category: ${valueArray[3]}</h3>
-          <img src="${valueArray[4]}" alt="${valueArray[1]}">
-        </div>
-        <div class="ingredientsList">`;
 
-    htmlString += structureIngredientListHtml(valueArray);
+  return htmlString;
+}
+
+function structureRecipeHtml(valueArray) {
+  let htmlString = 
+  `<section class="recipe" id="recipe-${valueArray[0]}">
+    <div class="recipe-top">
+      <div class="recipeHeader">
+        <h2>${valueArray[1]}</h2>
+        <h3>Cuisine: ${valueArray[2]}</h3>
+        <h3>Category: ${valueArray[3]}</h3>
+        <img src="${valueArray[4]}" alt="${valueArray[1]}">
+      </div>
+      <div class="ingredientsList">`;
+
+  htmlString += structureIngredientListHtml(valueArray);
+  
+  htmlString += 
+  `</div>
+  </div>
+  <hr class="ingredient-break">
+  <p>${valueArray[45]}</p>
+  <a class="youtubeButton" href="${valueArray[46]}">Youtube</a>`;
+  htmlString += `</section>`;
+  return htmlString;
+}
+
+
+function generateHtmlElements( displayObj, keyList, fetchType) {
+  let htmlString = "";
+  let fetchResults = [];
+
+  // organizes the fetchResults array based on keyList order
+  for ( let i = 0; i < keyList.length; i++) {
+    let objKey = keyList[i];
+    let objValue = displayObj[keyList[i]];
+
+    fetchResults.push(objValue);
     
-    htmlString += 
-    `</div>
-    </div>
-    <hr class="ingredient-break">
-    <p>${valueArray[45]}</p>
-    <a class="youtubeButton" href="${valueArray[46]}">Youtube</a>`;
-    htmlString += `</section>`;
-    return htmlString;
   }
-  
-  
-  function generateHtmlElements( displayObj, keyList, fetchType) {
-    let htmlString = "";
-    let fetchResults = [];
-  
-    // organizes the fetchResults array based on keyList order
-    for ( let i = 0; i < keyList.length; i++) {
-      let objKey = keyList[i];
-      let objValue = displayObj[keyList[i]];
-  
-      fetchResults.push(objValue);
-      
-    }
-  
-    switch(fetchType) {
-      case "category":
-        myDebug("category");
-        htmlString = structureCategoryHtml(fetchResults);
-        break;
-      
-      case "cuisine":
-        myDebug("cuisine");
-        htmlString = structureCuisineHtml(fetchResults);
-        break;
-  
-      case "meal":
-        myDebug("meal");
-        htmlString = structureMealHtml(fetchResults);
-        break;
-  
-      case "recipe":
-        myDebug("recipe");
-        htmlString = structureRecipeHtml(fetchResults);
-        break;
-  
-      default:
-        console.log("Error occurred during parsing the fetch results.");
-    }
-    return htmlString;
+
+  switch(fetchType) {
+    case "category":
+      myDebug("category");
+      htmlString = structureCategoryHtml(fetchResults);
+      break;
+    
+    case "cuisine":
+      myDebug("cuisine");
+      htmlString = structureCuisineHtml(fetchResults);
+      break;
+
+    case "meal":
+      myDebug("meal");
+      htmlString = structureMealHtml(fetchResults);
+      break;
+
+    case "recipe":
+      myDebug("recipe");
+      htmlString = structureRecipeHtml(fetchResults);
+      break;
+
+    default:
+      console.log("Error occurred during parsing the fetch results.");
   }
+  return htmlString;
+}
 
 // ------ Hide All Screens ------//
 function hideAllScreens() {
@@ -353,19 +367,6 @@ function parseCuisineResponse(responseJson) {
 }
 
 // recipes
-/* function parseTenRandomResponse(responseJson) {
-  let recipesData = responseJson.meals;
-  randomListString = "";
-
-  recipesData.forEach( recipe => {
-    randomListString += generateHtmlElements(recipe, recipeKeyList, "recipe");
-    randomListString += "<hr class='recipe-break'>";
-  }) ;
-
-  $('section.js-results').html(randomListString);
-  $('.js-results').removeClass("hidden");
-} */
-
 function parseRecipeResponse(responseJson) {
   const recipesData = responseJson.meals;
   let recipeString = "";
@@ -520,10 +521,10 @@ function watchIngredientSubmit() {
     let ingredientList = [];
 
     for( let i=1; i < 11; i++) {
-
-      if(eval(`$('#ing${i}').val() != ""`) ){
-        let ingredientName = "test"
-        eval(`ingredientName = $('#ing${i}').val()`);
+      
+      let ingredientName = $(`#ing${i}`).val();
+      if( ingredientName != "" ) {
+        
         ingredientList.push(encodeURIComponent(ingredientName));
       }
       
@@ -533,18 +534,18 @@ function watchIngredientSubmit() {
 
     hideAllScreens();
     fetchByIngredientList(ingredientListString);
-});
+  });
 }
 
 // ---------- Splash Screen ----------
 function toggleSplashScreenDisplay() {
 
-    if( apiKey === "") {
-        $('.keySplash').removeClass("hidden");
-    }
-    else {
-        $('.keySplash').addClass("hidden");
-    }
+  if( apiKey === "") {
+      $('.keySplash').removeClass("hidden");
+  }
+  else {
+      $('.keySplash').addClass("hidden");
+  }
 }
 
 function watchSplashScreen() {

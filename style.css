@@ -79,11 +79,13 @@ img {
 }
 
 .user-input {
-  font-size: xx-large;
+  font-size: large;
+  height: 2em;
   margin-bottom: 5px;
 }
 textarea {
-  font-size: 80px;
+  height: 200px;
+  font-size: large;
 }
 
 textarea, input {
