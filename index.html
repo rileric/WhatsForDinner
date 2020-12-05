@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
@@ -23,6 +23,7 @@
     <main>
       <!---- Splash Screen  ---->
       <section class="keySplash hidden">
+        <h2>API Key Entry</h2>
         <form id="keyForm">
           <label for="user-key">Please enter your X-Rapid API Key: </label>
           <input class="user-input" id="user-key" type="password" name="userKey" required>
@@ -41,8 +42,7 @@
             <li>By ingredient list</li>
           </ol>
         </p>
-        <p>
-          Please feel free to reach out through the Contact page for any comments or concerns.
+        <p>Please feel free to reach out through the Contact page for any comments or concerns.
           <!---<p>Future enhancements:
             <ol>
               <li>Transitions</li>
@@ -54,6 +54,7 @@
       </section>
       <!---- Contact Screen  ---->
       <section class="contact hidden">
+        <h2>Contact the Developer</h2>
         <form action="https://formspree.io/f/myybejzd" method="POST" id="contactForm">
           <label for="user-name">Name:</label>
           <input class="user-input" id="user-name" type="text" name="name" required>
@@ -67,6 +68,7 @@
       
       <!---- Ingredients Screen  ---->
       <section class="ingredientSearch hidden">
+        <h2>Ingredient List</h2>
         <form id="ingForm">
           <label for="ing1">Ingredient 1: </label>
           <input class="user-input" id="ing1" type="text" name="ingredient1" required>
